@@ -1,8 +1,8 @@
 <script>
+    import { onMount } from "svelte";
     import Fa from "svelte-fa";
     import { faCircleCheck as completeIcon } from "@fortawesome/free-solid-svg-icons";
     import { faCircleCheck as incompleteIcon } from "@fortawesome/free-regular-svg-icons";
-    import { onMount } from "svelte";
     import TaskMenu from "./TaskMenu.svelte";
     import { PRIO } from "../enums.js";
 
@@ -47,18 +47,18 @@
             }, 250);
         }}
     >
+        <Fa icon={task.complete ? completeIcon : incompleteIcon} />
         {#if showRing}
             <span class="ring" />
         {/if}
-        <Fa icon={task.complete ? completeIcon : incompleteIcon} />
     </button>
 
     <TaskMenu
+        {canMoveUp}
+        {canMoveDown}
         bind:task
         bind:showMenu
         on:delete
-        {canMoveUp}
-        {canMoveDown}
         on:moveUp
         on:moveDown
     />
@@ -68,7 +68,6 @@
     .task {
         display: flex;
         gap: 10px;
-        transition: opacity 100ms linear;
         border-bottom: 1px solid var(--gray-color);
         align-items: center;
         position: relative;
@@ -78,12 +77,13 @@
         opacity: 0.4;
     }
 
-    button {
-        font-size: 16px;
-    }
-
     .completeBtn {
+        font-size: 16px;
         color: var(--success-color);
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     input[type="text"] {
@@ -96,7 +96,6 @@
         appearance: none;
         background-image: none;
         color: white;
-        display: inline;
         padding: 3px 0px;
         border-radius: 5px;
         font-size: 14px;
@@ -122,10 +121,10 @@
     }
 
     .ring {
-        outline: 3px solid forestgreen;
+        outline: 3px solid var(--success-color);
         border-radius: 50%;
         aspect-ratio: 1;
-        width: 14px;
+        width: 100%;
         position: absolute;
         animation: grow 250ms ease-out forwards;
     }
@@ -133,11 +132,11 @@
     @keyframes grow {
         from {
             opacity: 1;
-            transform: translate(1px, 4px) scale(1);
+            transform: scale(1);
         }
         to {
             opacity: 0;
-            transform: translate(1px, 4px) scale(1.6);
+            transform: scale(1.6);
         }
     }
 </style>

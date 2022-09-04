@@ -6,7 +6,6 @@
 <div>
     <label>
         <small>Sort by</small>
-
         <select bind:value={list.sort}>
             <option value={SORT.INITIAL}>initial</option>
             <option value={SORT.PRIORITY}>priority</option>
@@ -14,9 +13,9 @@
             >
         </select>
     </label>
+
     <label>
         <small>Filter tasks</small>
-
         <select bind:value={list.filter}>
             <option value={FILTER.ALL}>all</option>
             <option value={FILTER.INCOMPLETE}>incomplete</option>

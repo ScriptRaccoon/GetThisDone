@@ -1,5 +1,4 @@
 <script>
-    import Confirm from "./components/Confirm.svelte";
     import Header from "./components/Header.svelte";
     import List from "./components/List.svelte";
     import MainMenu from "./components/MainMenu.svelte";
@@ -7,19 +6,19 @@
     import { lists } from "./stores.js";
     import { FILTER, SORT } from "./enums.js";
 
-    let question = "";
-    let confirmedAction = () => {};
-
     let showAllTasks = false;
 
     let currentList = $lists[0] ?? null;
 
     function deleteList(list) {
-        confirmedAction = () => {
+        if (
+            window.confirm(
+                `Do you really want to delete the list '${list.name}'?`
+            )
+        ) {
             $lists = $lists.filter((l) => l.id != list.id);
             currentList = $lists[0] ?? null;
-        };
-        question = `Do you really want to delete the list '${list.name}'?`;
+        }
     }
 
     let listOfAllTasks = {
@@ -43,8 +42,6 @@
 
 <MainMenu bind:currentList bind:showAllTasks />
 
-<Confirm bind:question {confirmedAction} />
-
 <main>
     {#if currentList}
         {#key currentList.id}
@@ -62,7 +59,7 @@
 
 <style>
     main {
-        padding: 10px 20px;
+        padding: 10px;
     }
     .info {
         text-align: center;

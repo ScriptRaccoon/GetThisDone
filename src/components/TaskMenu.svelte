@@ -8,14 +8,17 @@
     import { lists } from "../stores.js";
     import { clickOutside } from "../actions.js";
     import { createEventDispatcher } from "svelte";
+
     const dispatch = createEventDispatcher();
+
     export let showMenu;
     export let task;
     export let canMoveUp;
     export let canMoveDown;
+
     let chosenList = task.list;
 
-    function moveTask() {
+    function moveTaskToList() {
         showMenu = false;
         const index = $lists.findIndex((l) => l.id == task.list);
         if (index < 0) return;
@@ -23,17 +26,15 @@
             (t) => t.id != task.id
         );
         task.list = chosenList;
-        const index_new = $lists.findIndex((l) => l.id == task.list);
-        $lists[index_new].tasks = [...$lists[index_new].tasks, task];
+        const newIndex = $lists.findIndex((l) => l.id == task.list);
+        $lists[newIndex].tasks = [...$lists[newIndex].tasks, task];
     }
 </script>
 
 <div>
     <button
-        class="menuBtn hamburger"
-        on:click={() => {
-            showMenu = !showMenu;
-        }}
+        class="menuBtn menuToggler"
+        on:click={() => (showMenu = !showMenu)}
     >
         {#if showMenu}
             <Fa icon={faXmark} />
@@ -67,12 +68,15 @@
                     transition:slide|local={{ duration: 200 }}
                     on:click={() => {
                         showMenu = false;
-                        dispatch("moveDown", +1);
+                        dispatch("moveDown");
                     }}>Move down</button
                 >
             {/if}
 
-            <select bind:value={chosenList} on:change={moveTask}>
+            <select
+                bind:value={chosenList}
+                on:change={moveTaskToList}
+            >
                 {#each $lists as list (list.id)}
                     <option value={list.id}>{list.name}</option>
                 {/each}
@@ -82,7 +86,7 @@
 </div>
 
 <style>
-    .hamburger {
+    .menuToggler {
         width: 20px;
     }
 
@@ -94,7 +98,7 @@
         display: flex;
         flex-direction: column;
         border: 1px solid var(--gray-color);
-        box-shadow: 0px 0px 5px #0006;
+        box-shadow: 0px 0px 8px #0006;
         font-size: 14px;
         border-radius: 4px;
     }

@@ -1,26 +1,26 @@
 <script>
+    import { createEventDispatcher } from "svelte";
     import Fa from "svelte-fa";
     import {
         faPlus,
         faTrashCan,
     } from "@fortawesome/free-solid-svg-icons";
-    import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
-    export let addTask = () => {};
 </script>
 
 <div>
     <button
-        class="menuBtn addBtn"
-        on:click={addTask}
         title="add task"
+        class="menuBtn addBtn"
+        on:click={() => dispatch("addTask")}
     >
         <Fa icon={faPlus} />
     </button>
+
     <button
+        title="delete list"
         class="menuBtn"
         on:click={() => dispatch("delete")}
-        title="delete list"
     >
         <Fa icon={faTrashCan} />
     </button>

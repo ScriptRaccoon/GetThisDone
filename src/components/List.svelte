@@ -39,8 +39,8 @@
                     (t) => t.id != task.id
                 );
             }
+            $lists = $lists;
         }
-        $lists = $lists;
     }
 
     function moveTaskUp(index) {
@@ -97,9 +97,8 @@
               );
 </script>
 
-<div class="list">
+<section class="list">
     <input
-        class="name"
         type="text"
         bind:value={list.name}
         bind:this={nameInput}
@@ -110,7 +109,7 @@
         style={list.id.length == 0 ? "justify-content: flex-end" : ""}
     >
         {#if list.id.length > 0}
-            <ListControl {addTask} on:delete />
+            <ListControl on:addTask={addTask} on:delete />
         {/if}
         <ListFilters bind:list />
     </menu>
@@ -139,11 +138,11 @@
             {/each}
         </ul>
     {:else}
-        <p in:fade={{ delay: 200 }}>
+        <p in:fade|local={{ delay: 200 }}>
             Create the first task in this list.
         </p>
     {/if}
-</div>
+</section>
 
 <style>
     menu {
@@ -164,7 +163,7 @@
         margin: 0 auto;
     }
 
-    .name {
+    input[type="text"] {
         font-size: 30px;
         margin-block: 10px;
         border-radius: 3px;
@@ -175,7 +174,7 @@
         list-style-type: none;
     }
 
-    input:disabled {
-        color: black;
+    input[type="text"]:disabled {
+        color: unset;
     }
 </style>

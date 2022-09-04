@@ -17,7 +17,6 @@
             sort: SORT.INITIAL,
         };
         $lists = [...$lists, newList];
-
         currentList = newList;
     }
 </script>
@@ -30,6 +29,7 @@
     >
         <Fa icon={faPlus} />
     </button>
+
     {#if $lists.length >= 2}
         <button
             transition:scale={{ duration: 200 }}
@@ -43,6 +43,7 @@
             All tasks
         </button>
     {/if}
+
     <div class="lists">
         {#each $lists as list (list.id)}
             <button

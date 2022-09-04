@@ -6,7 +6,7 @@
     header {
         text-align: center;
         padding: 20px 0px;
-        background: #d52;
+        background: var(--primary-color);
         color: white;
     }
     h1 {
