@@ -12,7 +12,6 @@
 
     let nameInput;
     let showRing = false;
-    let showMenu = false;
 
     onMount(() => {
         if (task.new) {
@@ -57,7 +56,6 @@
         {canMoveUp}
         {canMoveDown}
         bind:task
-        bind:showMenu
         on:delete
         on:moveUp
         on:moveDown

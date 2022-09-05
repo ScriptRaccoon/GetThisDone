@@ -63,6 +63,5 @@
     }
     .info {
         text-align: center;
-        width: 100%;
     }
 </style>

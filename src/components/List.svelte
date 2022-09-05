@@ -1,12 +1,17 @@
 <script>
     import { fade, fly } from "svelte/transition";
     import { flip } from "svelte/animate";
-    import { onMount } from "svelte";
+    import { onMount, createEventDispatcher } from "svelte";
     import Task from "./Task.svelte";
-    import ListControl from "./ListControl.svelte";
-    import ListFilters from "./ListFilters.svelte";
     import { lists, allTasks } from "../stores.js";
     import { PRIO, FILTER, SORT } from "../enums.js";
+
+    import Fa from "svelte-fa";
+    import {
+        faPlus,
+        faTrashCan,
+    } from "@fortawesome/free-solid-svg-icons";
+    const dispatch = createEventDispatcher();
 
     export let list;
 
@@ -109,9 +114,43 @@
         style={list.id.length == 0 ? "justify-content: flex-end" : ""}
     >
         {#if list.id.length > 0}
-            <ListControl on:addTask={addTask} on:delete />
+            <div class="controls">
+                <button
+                    title="add task"
+                    class="menuBtn addBtn"
+                    on:click={addTask}
+                >
+                    <Fa icon={faPlus} />
+                </button>
+
+                <button
+                    title="delete list"
+                    class="menuBtn"
+                    on:click={() => dispatch("delete")}
+                >
+                    <Fa icon={faTrashCan} />
+                </button>
+            </div>
         {/if}
-        <ListFilters bind:list />
+        <div class="filters">
+            <label>
+                <small>Sort by</small>
+                <select bind:value={list.sort}>
+                    {#each Object.values(SORT) as val}
+                        <option value={val}>{val}</option>
+                    {/each}
+                </select>
+            </label>
+
+            <label>
+                <small>Filter tasks</small>
+                <select bind:value={list.filter}>
+                    {#each Object.values(FILTER) as val}
+                        <option value={val}>{val}</option>
+                    {/each}
+                </select>
+            </label>
+        </div>
     </menu>
 
     {#if list.tasks.length > 0}
@@ -149,6 +188,19 @@
         padding: 10px 0px;
         display: flex;
         justify-content: space-between;
+    }
+
+    .controls,
+    .filters {
+        display: flex;
+        gap: 10px;
+    }
+    .addBtn {
+        color: var(--success-color);
+    }
+
+    small {
+        color: var(--gray-color);
     }
 
     @media (max-width: 480px) {

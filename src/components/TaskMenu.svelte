@@ -11,12 +11,12 @@
 
     const dispatch = createEventDispatcher();
 
-    export let showMenu;
     export let task;
     export let canMoveUp;
     export let canMoveDown;
 
     let chosenList = task.list;
+    let showMenu;
 
     function moveTaskToList() {
         showMenu = false;
@@ -33,7 +33,7 @@
 
 <div>
     <button
-        class="menuBtn menuToggler"
+        class="menuBtn hamburger"
         on:click={() => (showMenu = !showMenu)}
     >
         {#if showMenu}
@@ -86,7 +86,7 @@
 </div>
 
 <style>
-    .menuToggler {
+    .hamburger {
         width: 20px;
     }
 
